@@ -10,7 +10,7 @@ import os
 import argparse
 import time
 from models import *
-from adabound import AdaBound
+# from adabound import AdaBound
 from torch.optim import Adam, SGD
 from optimizers import *
 
@@ -21,7 +21,7 @@ def get_parser():
     parser.add_argument('--model', default='resnet', type=str, help='model',
                         choices=['resnet', 'densenet', 'vgg'])
     parser.add_argument('--optim', default='sgd', type=str, help='optimizer',
-                        choices=['sgd', 'adam', 'adamw', 'adabelief', 'yogi', 'msvag', 'radam', 'fromage', 'adabound',
+                        choices=['sgd', 'adam', 'adamw', 'adabelief', 'yogi', 'msvag', 'radam', 'fromage'
                                  ])
     parser.add_argument('--run', default=0, type=int, help='number of runs')
     parser.add_argument('--lr', default=0.1, type=float, help='learning rate')
@@ -83,7 +83,8 @@ def get_ckpt_name(model='resnet', optimizer='sgd', lr=0.1, final_lr=0.1, momentu
         'radam': 'lr{}-betas{}-{}-wdecay{}-eps{}-run{}'.format(lr, beta1, beta2,weight_decay, eps, run),
         'adamw': 'lr{}-betas{}-{}-wdecay{}-eps{}-run{}'.format(lr, beta1, beta2,weight_decay, eps, run),
         'adabelief': 'lr{}-betas{}-{}-eps{}-wdecay{}-run{}'.format(lr, beta1, beta2, eps, weight_decay, run),
-        'adabound': 'lr{}-betas{}-{}-final_lr{}-gamma{}-wdecay{}-run{}'.format(lr, beta1, beta2, final_lr, gamma,weight_decay, run),
+        'newadam': 'lr{}-betas{}-{}-eps{}-wdecay{}-run{}'.format(lr, beta1, beta2, eps, weight_decay, run),
+#         'adabound': 'lr{}-betas{}-{}-final_lr{}-gamma{}-wdecay{}-run{}'.format(lr, beta1, beta2, final_lr, gamma,weight_decay, run),
         'yogi':'lr{}-betas{}-{}-eps{}-wdecay{}-run{}'.format(lr, beta1, beta2, eps,weight_decay, run),
         'msvag': 'lr{}-betas{}-{}-eps{}-wdecay{}-run{}'.format(lr, beta1, beta2, eps,
                                                                     weight_decay, run),
@@ -145,10 +146,10 @@ def create_optimizer(args, model_params):
     elif args.optim == 'msvag':
         return MSVAG(model_params, args.lr, betas=(args.beta1, args.beta2),
                           weight_decay=args.weight_decay)
-    elif args.optim == 'adabound':
-        return AdaBound(model_params, args.lr, betas=(args.beta1, args.beta2),
-                        final_lr=args.final_lr, gamma=args.gamma,
-                        weight_decay=args.weight_decay)
+#     elif args.optim == 'adabound':
+#         return AdaBound(model_params, args.lr, betas=(args.beta1, args.beta2),
+#                         final_lr=args.final_lr, gamma=args.gamma,
+#                         weight_decay=args.weight_decay)
     else:
         print('Optimizer not found')
 
