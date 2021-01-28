@@ -19,7 +19,7 @@ class NewAdam(Optimizer):
             raise ValueError("Invalid weight_decay value: {}".format(weight_decay))
         defaults = dict(lr=lr, betas=betas, eps=eps,
                         weight_decay=weight_decay, amsgrad=amsgrad)
-        super(Adam, self).__init__(params, defaults)
+        super(NewAdam, self).__init__(params, defaults)
 
     def __setstate__(self, state):
         super(NewAdam, self).__setstate__(state)
