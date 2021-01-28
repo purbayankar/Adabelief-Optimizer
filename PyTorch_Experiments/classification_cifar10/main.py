@@ -136,6 +136,9 @@ def create_optimizer(args, model_params):
     elif args.optim == 'adabelief':
         return AdaBelief(model_params, args.lr, betas=(args.beta1, args.beta2),
                           weight_decay=args.weight_decay, eps=args.eps)
+    elif args.optim == 'newadam':
+        return NewAdam(model_params, args.lr, betas=(args.beta1, args.beta2),
+                          weight_decay=args.weight_decay, eps=args.eps)
     elif args.optim == 'yogi':
         return Yogi(model_params, args.lr, betas=(args.beta1, args.beta2),
                           weight_decay=args.weight_decay)
