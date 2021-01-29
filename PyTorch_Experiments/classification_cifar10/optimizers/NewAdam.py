@@ -63,18 +63,17 @@ class NewAdam(Optimizer):
                 exp_avg, exp_avg_sq = state['exp_avg'], state['exp_avg_sq']
                 if amsgrad:
                     max_exp_avg_sq = state['max_exp_avg_sq']
-                beta1, beta2 = group['betas']
-                
-                beta1 = torch.sigmoid(torch.var(grad))
-
+                _, beta2 = group['betas']
+                beta1 = (1/(1+torch.exp(-6*torch.var(grad)-3.5)))-0.1
                 beta1 = beta1.item()
-                if beta1>=0.9:
-                    beta1=0.9
-                if beta1<=0.8:
-                    beta1=0.8
+                beta2 = (1/(1/(1+torch.exp(torch.var(grad)-3))))-0.05
+                beta2 = beta2.item()
+                if beta2>=1:
+                    beta2=0.999
                 
                 
                 
+               
 
                 state['step'] += 1
                 bias_correction1 = 1 - beta1 ** state['step']
@@ -82,7 +81,6 @@ class NewAdam(Optimizer):
 
                 if group['weight_decay'] != 0:
                     grad = grad.add(p, alpha=group['weight_decay'])
-                    
 
                 # Decay the first and second moment running average coefficient
                 exp_avg.mul_(beta1).add_(grad, alpha=1 - beta1)
