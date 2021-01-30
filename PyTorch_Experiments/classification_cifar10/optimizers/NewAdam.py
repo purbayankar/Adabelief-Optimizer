@@ -64,9 +64,9 @@ class NewAdam(Optimizer):
                 if amsgrad:
                     max_exp_avg_sq = state['max_exp_avg_sq']
                 _, beta2 = group['betas']
-                beta1 = (1/(1+torch.exp(-6*torch.var(grad)-3.5)))-0.1
+                beta1 = (1/(1+torch.exp(-15*torch.var(grad)-4.5)))-0.1
                 beta1 = beta1.item()
-                beta2 = (1/(1/(1+torch.exp(torch.var(grad)-3))))-0.05
+                beta2 = (1/(1/(1+torch.exp(-13*torch.var(grad)-4.5))))-0.0099
                 beta2 = beta2.item()
                 if beta2>=1:
                     beta2=0.999
